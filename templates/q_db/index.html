@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+		{% for q in questions %}
+			<p>{{q}}</p>			
+		{% endfor %}
+	
+
+    {% else %}
+	    <div class="jumbotron">
+	        <h1>Welcome to Pradnya Round 1 </h1>
+	        <p>The first round will be MCQs (C/C++), which will be organized on an application in our labs. Those who will qualify for the first round, will be advanced to the second round.</p>
+	        <p>You can attempt as many questions as you can.</p>
+	        <p>
+	            <a class="btn btn-lg btn-primary" href="{%  url  'auth_login' %}" role="button">Start Contest</a>
+	        </p>
+	    </div>
+	{% endif %}
+
+	
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+		<h2>{{question.question_text}}</h2>
+		
+			<form class="answer-form" name="answer-form">
+			  <input type="radio" name="answer" value="c1" {% if answer == "c1" %}
+			  checked
+			  {% endif %}> {{question.c1}}<br>
+			  <input type="radio" name="answer" value="c2" {% if answer == "c2" %}
+			  checked
+			  {% endif %}> {{question.c1}}<br>
+			  <input type="radio" name="answer" value="c3" {% if answer == "c3" %}
+			  checked
+			  {% endif %}> {{question.c1}}<br>
+			  <input type="radio" name="answer" value="c4" {% if answer == "c4" %}
+			  checked
+			  {% endif %}> {{question.c1}}<br>
+			</form>
+	
+	{% endif %}
+
+<a href="{% url 'contest_que' id|add:"-1" %}">
+	<button type="button" class="pre btn btn-default" > <span class="glyphicon glyphicon-arrow-left"></span> Previous
+	</button>
+</a>
+
+
+<a href="{% url 'contest_que' id|add:"1" %}">
+	<button type="button" class="next btn btn-default" > Next <span class="glyphicon glyphicon-arrow-right"></span>
+	</button>	
+
+</a>
+
+
+
+{% endblock %}

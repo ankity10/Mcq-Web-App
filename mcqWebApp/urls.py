@@ -14,9 +14,18 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from questions import views
+from registration.backends.default import urls
 
 urlpatterns = [
+    url(r'^score/',views.score,name='score'),
+    url(r'^ans_submit/',views.ans_submit, name='ans_submit'),
+    url(r'^q_submit/',views.q_submit, name='q_submit'),
+    url(r'^contest/(?P<id>\d+)/',views.contest_que,name='contest_que'),
+    url(r'^contest/$',views.contest,name='contest'),
+	url(r'^$',views.index,name='index'),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^admin/', admin.site.urls),
 ]

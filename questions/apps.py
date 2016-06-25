@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class QuestionsConfig(AppConfig):
+class QDbConfig(AppConfig):
     name = 'questions'

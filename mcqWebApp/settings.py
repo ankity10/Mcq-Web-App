@@ -138,3 +138,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/contest/'
+
+
+# Application view specific settings
+# =======================================================
+APP_NAME = 'MCQ WEB APP'
+

@@ -1,13 +1,24 @@
 from django.shortcuts import render,redirect
+
 from django.http import HttpResponse
+
 from django.contrib.auth.decorators import login_required
+# MODELS IMPORT 
+# =======================================================
+
+# import models from 'questions' app 
 from .models import Question
-from django.contrib.auth.models import User
 from .models import Contestant
+
+from django.contrib.auth.models import User
+
+
+# Utility packages
+# =======================================================
 from random import shuffle
 from django.core.exceptions import ObjectDoesNotExist
 
-
+from django.conf import settings
 
 
 
@@ -17,8 +28,11 @@ def index(request):
 	if request.user.is_authenticated:
 		question_list = [q.question_text for q in Question.objects.all()]
 
+	app_name = getattr(settings, "APP_NAME",None)
 	context = {
-	"questions" : question_list
+	"questions" : question_list,
+	"title":"Home  | Welcome to mcqWebApp",
+	"app_name":app_name
 	}
 	print(context)
 	print("Printing done")
@@ -85,18 +99,20 @@ def contest_que(request,id):
 	if(int(id)>0 and int(id)<6):
 		qid=q_list[int(id)-1]
 
-		question = Question.objects.get(pk=qid+5)#remove pk after changing questions dataset
+		question = Question.objects.get(pk=qid)#remove pk after changing questions dataset
 		context = {
 		"question" : question,
 		"id" : id,
 		"answer":trial_answer,
+		"title":"Question "+id+" | Welcome to mcqWebApp"
 		}	
 		# redering the question ..success
-		return render(request,'q_db/question.html',context)
+		return render(request,'questions/question.html',context)
 	else: #showing error if question id is out of limit
 		error = "Question not found!"
 		context = {
 		"error" : error,
+		"title":"Error | Welcome to mcqWebApp"
 		}	
 		return render(request,'questions/error.html',context)
 
@@ -127,7 +143,7 @@ def ans_submit(request):
 	q_list = [int(i) for i in q_list.split( )]
 	cur_que_index = int(request.POST['cq'])-1
 	cur_que = q_list[cur_que_index]
-	question = Question.objects.get(pk=cur_que+5) #remove pk after changing questions dataset
+	question = Question.objects.get(pk=cur_que) #remove pk after changing questions dataset
 	answer = request.POST['ans']
 	if answer == question.answer:
 		print("write answer")
@@ -160,7 +176,7 @@ def score(request):
 		contestant = Contestant.objects.get(user=usr)
 		cur_que_index = i
 		cur_que = q_list[cur_que_index]
-		question = Question.objects.get(pk=cur_que+5) #remove pk after changing questions dataset
+		question = Question.objects.get(pk=cur_que) #remove pk after changing questions dataset
 		answer = ans_array[i]
 		if answer == question.answer:
 			print("write answer")
@@ -171,8 +187,8 @@ def score(request):
 		Contestant.objects.filter(pk=contestant.id).update(score=c_score) #updating score
 
 	context = {
-
 	'score' : contestant.score,
+	"title":"Score | Welcome to mcqWebApp"
 	}
 
 	return render(request,'questions/score.html',context)

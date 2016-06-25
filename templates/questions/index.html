@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}
+	{{title}}
+{% endblock title %}
+
 {% block content %}
 
     {% if request.user.is_authenticated %}
@@ -10,7 +14,7 @@
 
     {% else %}
 	    <div class="jumbotron">
-	        <h1>Welcome to Pradnya Round 1 </h1>
+	        <h1>Welcome to {{ app_name }} </h1>
 	        <p>The first round will be MCQs (C/C++), which will be organized on an application in our labs. Those who will qualify for the first round, will be advanced to the second round.</p>
 	        <p>You can attempt as many questions as you can.</p>
 	        <p>

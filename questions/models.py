@@ -33,6 +33,9 @@ class Contestant(models.Model):
     def get_answer(self, index):
         value = self.ans_array.split(" ")[index]
         return value
+    
+    def get_answer_list(self):
+        return self.ans_array.split(" ")
 
     def set_answer(self, answers):
         self.ans_array = answers
@@ -58,6 +61,11 @@ class Contestant(models.Model):
     def set_currqid(self, value):
         self.current_que_id = value
         self.save()
+        
+    def set_score(self, value):
+        self.score = value
+        self.save()
+
 # SETTERS ENDS
 # ********************************************************
 

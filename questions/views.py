@@ -135,7 +135,7 @@ def question(request,id):
 			return HttpError(request=request, 
 				error="Database Error: ObjectDoesNotExist", 
 				details=err)
-			
+
 		answer = contestant.get_answer(question_num)
 		context = {
 		"answer": answer,
@@ -184,28 +184,22 @@ def ans_submit(request):
 
 @login_required
 def score(request):
-	usr = User.objects.get(username=request.user)
-	contestant = Contestant.objects.get(user=usr)
+	contestant = get_contestant(request)
 	# Contestant.objects.filter(pk=contestant.id).update(score=0) #updating score to 0
 	
-	q_list = contestant.que_array
-	q_list = [int(i) for i in q_list.split( )]
-	ans_array = contestant.ans_array
-	ans_array = ans_array.split(' ')
+	question_indexes = contestant.get_questions()
+	answer_array = contestant.get_answer_list()
 	c_score = 0
-	for i in range(contestant.current_que_id):
-		contestant = Contestant.objects.get(user=usr)
+	for i in range(total_questions(request)):
 		cur_que_index = i
-		cur_que = q_list[cur_que_index]
-		question = Question.objects.get(pk=cur_que) #remove pk after changing questions dataset
-		answer = ans_array[i]
+		cur_que = question_indexes[cur_que_index]
+		question = Question.objects.get(pk=cur_que)
+		
+		answer = answer_array[i]
 		if answer == question.answer:
 			print("write answer")
 			c_score = c_score + 4
-	
-
-	if contestant.score != c_score:
-		Contestant.objects.filter(pk=contestant.id).update(score=c_score) #updating score
+	contestant.set_score(c_score)
 
 	context = {
 	'score' : contestant.score,

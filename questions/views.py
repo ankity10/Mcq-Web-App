@@ -117,7 +117,6 @@ def contest(request):
 	return redirect('/contest/'+str(id))
 
 
-
 # Contest_que view to present the question in front of user according to the url parameter id
 @login_required
 def question(request,id):

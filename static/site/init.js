@@ -2,11 +2,6 @@
 
 var cur_que = window.location.pathname.split('/')[2];
 
-
-
-
-
-
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -23,13 +18,12 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
 $('.next').click(function(evt) {
 
-console.log("inside submition");
+// console.log("inside submition");
 
 var csrftoken = getCookie('csrftoken');
-console.log(csrftoken);
+// console.log(csrftoken);
 
 formData = {
 	'cq' : cur_que,
@@ -98,8 +92,6 @@ console.log("submition finished");
 
 	// body...
 });
-
-
 
 $("form.answer-form input[name=answer]").click(function (evt) {
     console.log("it works");

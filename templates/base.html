@@ -51,17 +51,17 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
              {% if request.user.is_authenticated %}
-                 <li><a href="#">welcome {{ request.user }}</a></li>
+                <li><a href="#">welcome {{ request.user }}</a></li>
 
-                 <li><a href="{%  url  'auth_logout'  %}?next=/">Logout</a></li>
+                <li><a href="{%  url  'auth_logout'  %}?next=/">Logout</a></li>
 
-                 {% else %}
-                 <li><a href="{%  url  'auth_login' %}">Login</a></li>
+                {% else %}
+                <li><a href="{%  url  'auth_login' %}">Login</a></li>
                 <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
+                <li><a href="{% url 'admin:index' %}">Admin</a></li>
 
              {% endif %}
 
-                <li><a href="{% url 'admin:index' %}">Admin</a></li>
 
 
             </ul>

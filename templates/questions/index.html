@@ -4,23 +4,16 @@
 	{{title}}
 {% endblock title %}
 
+
 {% block content %}
 
     {% if request.user.is_authenticated %}
-		{% for q in questions %}
-			<p>{{q}}</p>			
-		{% endfor %}
-	
 
+		{% include "questions/logged_in_home.html" %}
+	
     {% else %}
-	    <div class="jumbotron">
-	        <h1>Welcome to {{ app_name }} </h1>
-	        <p>The first round will be MCQs (C/C++), which will be organized on an application in our labs. Those who will qualify for the first round, will be advanced to the second round.</p>
-	        <p>You can attempt as many questions as you can.</p>
-	        <p>
-	            <a class="btn btn-lg btn-primary" href="{%  url  'auth_login' %}" role="button">Start Contest</a>
-	        </p>
-	    </div>
+		{% include "questions/logged_out_home.html" %}
+
 	{% endif %}
 
 	

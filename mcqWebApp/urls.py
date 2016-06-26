@@ -22,7 +22,7 @@ from registration.backends.default import urls
 urlpatterns = [
     url(r'^score/',views.score,name='score'),
     url(r'^ans_submit/',views.ans_submit, name='ans_submit'),
-    url(r'^q_submit/',views.q_submit, name='q_submit'),
+    url(r'^q_submit/',views.state_change, name='q_submit'),
     url(r'^contest/(?P<id>\d+)/',views.question,name='contest_que'),
     url(r'^contest/$',views.contest,name='contest'),
 	url(r'^$',views.index,name='index'),

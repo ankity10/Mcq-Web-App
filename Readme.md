@@ -10,3 +10,6 @@ This Web Application presents a set of random questions from database to user an
 2. **User Login and SignUp.**
 3. **Admin Panel.**
 4. **Score Calculation Rules.**
+
+### Demo Link
+#### [http://mcq-ankity10.rhcloud.com](http://mcq-ankity10.rhcloud.com)

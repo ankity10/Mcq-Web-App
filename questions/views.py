@@ -7,7 +7,7 @@ from .models import Contestant
 from django.contrib.auth.models import User
 
 
-# Utility packages
+# UTILITY PACKAGES
 # =======================================================
 from random import shuffle
 from django.core.exceptions import ObjectDoesNotExist
@@ -17,9 +17,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 
-# HELPER FUNCTIONS
+# HELPER FUNCTIONS START
 # =======================================================
-
 # Finds number of questions in database
 def question_pk_list(request):
 	try:
@@ -72,11 +71,11 @@ def HttpError(**args):
 	else:
 		return HttpError(request=args['request'], error="Argument Error: function 'HttpError' requires 'error' and 'details' argument ", details="no details required")
 
-
+# HELPER FUNCTIONS ENDS
 # *******************************************************
 
 
-# VIEWS SECTION STARTS
+# VIEWS STARTS
 # =======================================================
 def index(request):
 	app_name = getattr(settings, "APP_NAME",None)
@@ -231,4 +230,5 @@ def score(request):
 
 	return render(request,'questions/score.html',context)
 
+# VIEWS ENDS
 # *******************************************************

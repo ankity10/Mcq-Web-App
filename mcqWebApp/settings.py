@@ -25,8 +25,7 @@ SECRET_KEY = '6_#1^wn&yq5ra2o2piaa(($n8nd%doc2pp4*+ieivvvie%7og0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -119,26 +118,24 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT =  os.path.join(BASE_DIR, "static-dev")
 
 STATIC_URL = '/static/'
 
 SITE_ID = 1
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    # '/var/www/static/',
 ]
 
+print("base dir path",os.path.join(BASE_DIR, "static"))
 #Crispy forms Framework setup 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
 
 #Registration Redux
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/contest/'
-
 
 # Application view specific settings
 # =======================================================

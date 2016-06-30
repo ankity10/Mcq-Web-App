@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-
 from random import shuffle
 
 # Create your models here.
@@ -15,7 +14,6 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
 
-
 class Contestant(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     score = models.IntegerField(default=0)
@@ -26,7 +24,6 @@ class Contestant(models.Model):
 
     def __str__(self):
         return str(self.user)
-
 
 # GETTERS START
 # =======================================================
@@ -51,7 +48,6 @@ class Contestant(models.Model):
 # GETTERS ENDS
 # ********************************************************
 
-
 # SETTERS STARTS
 # ======================================================= 
     def set_login(self, value):
@@ -68,7 +64,6 @@ class Contestant(models.Model):
 
 # SETTERS ENDS
 # ********************************************************
-
 
 # UPDATE STARTS
 # =======================================================

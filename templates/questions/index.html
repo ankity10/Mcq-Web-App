@@ -4,18 +4,10 @@
 	{{title}}
 {% endblock title %}
 
-
 {% block content %}
-
     {% if request.user.is_authenticated %}
-
 		{% include "questions/logged_in_home.html" %}
-	
     {% else %}
 		{% include "questions/logged_out_home.html" %}
-
 	{% endif %}
-
-	
-
 {% endblock %}

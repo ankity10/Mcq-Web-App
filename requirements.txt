@@ -1,0 +1,2 @@
+django-registration
+django-crispy_forms

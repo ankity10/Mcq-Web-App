@@ -34,8 +34,19 @@
 		<button type="button" class="pre btn btn-default" > <span class="glyphicon glyphicon-arrow-left"></span> Previous
 		</button>
 	</a>
-	<a href="{% url 'contest_que' id|add:"1" %}">
-		<button type="button" class="next btn btn-default" > Next <span class="glyphicon glyphicon-arrow-right"></span>
-		</button>	
-	</a>
+	
+	{% if id != total|slugify %}
+		<a href="{% url 'contest_que' id|add:"1" %}">
+			<button type="button" class="next btn btn-default" > Next  <span class="glyphicon glyphicon-arrow-right"></span>
+			</button>	
+		</a>
+	
+	{% else %}
+		<a href="{% url 'contest_que' id|add:"1" %}">
+			<button type="button" class="next btn btn-default" > Submit  <span class="glyphicon glyphicon-arrow-right"></span>
+			</button>	
+		</a>
+	{% endif%}
+	
+
 {% endblock %}

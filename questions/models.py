@@ -3,7 +3,17 @@ from django.contrib.auth.models import User
 from random import shuffle
 
 # Create your models here.
+
+class Test(models.Model):
+    test_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+
+
+    def __str__(self):
+        return str(self.name)
+
 class Question(models.Model):
+    question_id = models.AutoField(primary_key=True)
     question_text = models.CharField(max_length=200)
     c1 = models.CharField(max_length=200,default='')
     c2 = models.CharField(max_length=200,default='')
@@ -13,6 +23,21 @@ class Question(models.Model):
  
     def __str__(self):
         return self.question_text
+
+class Association(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test,on_delete=models.CASCADE )
+
+    def __str__(self):
+        return str(self.question)
+    @classmethod
+    def get_test_question_id(cls,test_id):
+        association_obj = cls.objects.filter(test_id=test_id)
+        question_id_list= [obj.question.question_id for obj in association_obj]
+        return question_id_list
+
+
+
 
 class Contestant(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)

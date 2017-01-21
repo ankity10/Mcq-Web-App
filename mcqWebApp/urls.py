@@ -28,5 +28,9 @@ urlpatterns = [
     url(r'^contest/$', views.contest, name='contest'),
 	url(r'^$', views.index, name='index'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
+
+    url(r'^tests/$', views.get_tests, name='tests'),
+    url(r'^tests/(?P<id>\d+)/$', views.test_details, name='test_details'),
+
     url(r'^admin/', admin.site.urls),
 ]

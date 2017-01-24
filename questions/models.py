@@ -20,6 +20,7 @@ class Question(models.Model):
     c3 = models.CharField(max_length=200,default='')
     c4 = models.CharField(max_length=200,default='')
     answer = models.CharField(max_length=200,default='c1')
+    marks = models.IntegerField(default=0)
  
     def __str__(self):
         return self.question_text
@@ -38,14 +39,34 @@ class Association(models.Model):
 
 class Contestant(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
+    ongoing_test = models.ForeignKey(Test)
+
+    
+
+    def __str__(self):
+        return str(self.user)
+
+
+class UsersTest(models.Model):
+
+    test = models.ForeignKey(Test, on_delete = models.CASCADE)
+    contestant = models.ForeignKey(Contestant, on_delete = models.CASCADE)
     score = models.IntegerField(default=0)
     current_que_id = models.IntegerField(default=1)
     first_login = models.BooleanField(default=False)
     que_array = models.TextField(default="",null=True)
     ans_array = models.TextField(default="",null=True)
+    test_progress = models.TextField(default="",null=True)
+
+
 
     def __str__(self):
-        return str(self.user)
+        return str(self.test) + " ===> "+ str(self.contestant)
+    
+    @classmethod
+    def get_user_tests(cls, contestant_id):
+        user_test_objs = UsersTest.objects.filter(contestant_id = contestant_id)
+        return [objs.test for objs in user_test_objs]
 
 # GETTERS START
 # =======================================================
@@ -104,15 +125,3 @@ class Contestant(models.Model):
         self.save()
 # UPDATE ENDS
 # *******************************************************
-
-class UserTest(models.Model):
-    test = models.ForeignKey(Test, on_delete = models.CASCADE)
-    contestant = models.ForeignKey(Contestant, on_delete = models.CASCADE)
-    def __str__(self):
-        return str(self.test) + " ===> "+ str(self.contestant)
-    
-    @classmethod
-    def get_user_tests(cls, contestant_id):
-        user_test_objs = UserTest.objects.filter(contestant_id = contestant_id)
-        return [objs.test for objs in user_test_objs]
-

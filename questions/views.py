@@ -5,7 +5,7 @@ from .models import Question
 from .models import Contestant
 from .models import Test
 from .models import Association
-from .models import UserTest
+from .models import UsersTest
 from django.contrib.auth.models import User
 
 # UTILITY PACKAGES
@@ -117,10 +117,10 @@ def contest(request,id):
 	return redirect('/test/'+str(id))
 
 @login_required
-def score(request):
-	contestant = get_contestant(request)
-	question_indexes = contestant.get_question_indices()
-	answer_array = contestant.get_answer_list()
+def score(request, test_id):
+	userstest = get_user_tests(request,test_id)
+	question_indexes = userstest.get_question_indices()
+	answer_array = userstest.get_answer_list()
 	c_score = 0
 	total_ques = len(question_indexes)
 	for i in range(total_ques):
@@ -147,13 +147,13 @@ def question(request,id,test_id):
 	'''
 	question view to present the question in front of user according to the url parameter id
 	'''
-	contestant = get_contestant(request)
-	question_indexes = contestant.get_question_indices()
-	total = total_questions(request)
+	userstest = get_user_tests(request, test_id)
+	question_indexes = userstest.get_question_indices()
+	#total = total_questions(request)
 	# question_id in url
 	question_id = int(id)
-	total_ques = len(contestant.get_question_indices())
-	if question_id <= total_ques:
+	total_ques = len(userstest.get_question_indices())
+	if question_id <= total_ques+1:
 		try:
 			question_num = question_id - 1
 			question_pk = question_indexes[question_num]
@@ -167,22 +167,22 @@ def question(request,id,test_id):
 			return HttpError(request=request, 
 							 error="Database Error: ObjectDoesNotExist", 
 							 details=err)
-		answer = contestant.get_answer(question_num)
-		contestant.set_currqid(id)
+		answer = userstest.get_answer(question_num)
+		userstest.set_currqid(id)
 		context = {
 		"answer": answer,
 		"question": question,
 		"id": id,
 		"test_id":test_id,
-		"total":total,
+		"total":total_ques,
 		"title": "Question "+id+" | Welcome to mcqWebApp"
 		}
 		return render(request,'questions/question.html',context)
-	else:
-#		return HttpError(request=request, 
-#						 error="Question not found!", 
-#						 details="no details required")
-		return redirect ('/score/') 
+# 	else:
+# #		return HttpError(request=request, 
+# #						 error="Question not found!", 
+# #						 details="no details required")
+# 		return redirect () 
 
 @login_required
 def state_change(request):
@@ -211,28 +211,46 @@ def ans_submit(request):
 
 
 # added by shrunoti
-@login_required
-def get_tests(request):
+
+def get_tests(request, contestant):
+	tests = UsersTest.get_user_tests(contestant.id)
+	return tests
+
+def get_user_tests(request,id):
 	contestant = get_contestant(request)
-	tests = UserTest.get_user_tests(contestant.id)
-	return render (request, 'questions/tests.html', {'tests':tests}) 
+	userstest = UsersTest.objects.get (contestant = contestant, test_id = id)
+	return userstest
+
+
+
+@login_required
+def show_tests(request):
+	contestant = get_contestant(request);
+	tests = get_tests(request,contestant)
+	return render (request, 'questions/tests.html', {'tests':tests})
+
+
 
 @login_required	
 def test_details(request,id):
-	asso_objs = Association.objects.filter(test_id = id)
-	#questions = [objs.question for objs in asso_objs]
-	# q_str_list = [str(question.question_id) for question in questions]
+	
 	contestant = get_contestant(request)
-	
-	if contestant.first_login is False:
+	userstest = get_user_tests(request,id)
+	asso_objs = Association.objects.filter(test_id = id)
+	questions = [objs.question for objs in asso_objs]
+	q_str_list = [str(question.question_id) for question in questions]
+	#contestant = get_contestant(request)
+	 
+
+	if userstest.first_login is False:
 		
-		contestant.set_questions(q_str_list)
-		contestant.set_answer(q_str_list)
-		questions = contestant.get_questions()
-		contestant.set_login(True)
-	
+	 	userstest.set_questions(q_str_list)
+	 	userstest.set_answer(q_str_list)
+	 	questions = userstest.get_questions()
+	 	userstest.set_login(True)
 	else:
-		questions = contestant.get_questions
+	
+	 	questions = userstest.get_questions
 
 	
 	context = {
@@ -241,6 +259,18 @@ def test_details(request,id):
 	
 	}
 	return render (request, 'questions/test_details.html', context)
+
+@login_required
+def test_completed(request,test_id):
+
+	return render(request, 'questions/test_completed.html', {'test_id':test_id} )
+
+
+	
+
+
+
+
 	# return HttpResponse(q_ids)
 
 # def get_question_id_list(id):

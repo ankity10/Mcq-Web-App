@@ -13,11 +13,9 @@
    		</h4>  
    		</div>  
    	
-   		
+   	    {%endfor%}
 
-   {%endfor%}
-
-   <a href="#"> 
+	<a href="{% url 'contest_que' test_id 1 %}  "> 
 		<button type="button" class="pre btn btn-default" >  Start Test
 		</button>
 	</a>

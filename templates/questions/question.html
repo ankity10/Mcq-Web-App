@@ -45,7 +45,7 @@
 		</a>
 	
 	{% else %}
-		<a href="{% url 'contest_que' test_id id|add:"1" %}">
+		<a href="{% url 'test_completed' test_id  %}">
 			<button type="button" class="next btn btn-default" > Submit  <span class="glyphicon glyphicon-arrow-right"></span>
 			</button>	
 		</a>

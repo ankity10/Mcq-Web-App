@@ -21,17 +21,20 @@ from registration.backends.default import urls
 
 urlpatterns = [
     url(r'^ifdebug/', views.ifdebug, name='ifdebug'),
-    url(r'^score/', views.score, name='score'),
+    
+    url(r'^score/$', views.score, name='score'),
+    
     url(r'^ans_submit/', views.ans_submit, name='ans_submit'),
     url(r'^q_submit/', views.state_change, name='q_submit'),
-    url(r'^test/(?P<test_id>\d+)/(?P<id>\d+)$', views.question, name='contest_que'),
+    url(r'^tests/(?P<test_id>\d+)/(?P<id>\d+)$', views.question, name='contest_que'),
     url(r'^contest/$', views.contest, name='contest'),
 	url(r'^$', views.index, name='index'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
-    url(r'^tests/$', views.get_tests, name='tests'),
+    url(r'^tests/$', views.show_tests, name='tests'),
    
     url(r'^tests/(?P<id>\d+)/$', views.test_details, name='test_details'),
+    url(r'^tests/(?P<test_id>\d+)/testcompleted$', views.test_completed, name='test_completed'),
 
     url(r'^admin/', admin.site.urls),
 ]

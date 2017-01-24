@@ -135,7 +135,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #Registration Redux
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
-LOGIN_REDIRECT_URL = '/contest/'
+LOGIN_REDIRECT_URL = '/tests/'
 
 # Application view specific settings
 # =======================================================

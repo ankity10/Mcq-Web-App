@@ -29,15 +29,12 @@ class Association(models.Model):
     test = models.ForeignKey(Test,on_delete=models.CASCADE )
 
     def __str__(self):
-        return str(self.question)
+        return str(self.test) + " ===> "+ str(self.question)
     @classmethod
     def get_test_question_id(cls,test_id):
         association_obj = cls.objects.filter(test_id=test_id)
         question_id_list= [obj.question.question_id for obj in association_obj]
         return question_id_list
-
-
-
 
 class Contestant(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -62,14 +59,22 @@ class Contestant(models.Model):
     def set_answer(self, answers):
         self.ans_array = answers
         self.save()
+   
     def get_questions(self):
-        return [int(index) for index in self.que_array.split(" ")]
+        question_list = []
+        for id in [int(index) for index in self.que_array.split(" ")]:
+            question_list.append(Question.objects.get(pk=id))
+        return question_list
 
     def set_questions(self, question_list):
         shuffle(question_list)
         question_indexes_s = [str(element) for element in question_list]
         self.que_array = ' '.join(question_indexes_s)
         self.save()
+
+    def get_question_indices(self):
+        return [int(index) for index in self.que_array.split(" ")]
+
 # GETTERS ENDS
 # ********************************************************
 
@@ -99,3 +104,15 @@ class Contestant(models.Model):
         self.save()
 # UPDATE ENDS
 # *******************************************************
+
+class UserTest(models.Model):
+    test = models.ForeignKey(Test, on_delete = models.CASCADE)
+    contestant = models.ForeignKey(Contestant, on_delete = models.CASCADE)
+    def __str__(self):
+        return str(self.test) + " ===> "+ str(self.contestant)
+    
+    @classmethod
+    def get_user_tests(cls, contestant_id):
+        user_test_objs = UserTest.objects.filter(contestant_id = contestant_id)
+        return [objs.test for objs in user_test_objs]
+

@@ -46,7 +46,7 @@
 	
 	{% else %}
 		<a href="{% url 'test_completed' test_id  %}">
-			<button type="button" class="next btn btn-default" > Submit  <span class="glyphicon glyphicon-arrow-right"></span>
+			<button type="button" class="submit btn btn-default" onclick="show_alert();"  > Submit  <span class="glyphicon glyphicon-arrow-right"></span>
 			</button>	
 		</a>
 	{% endif%}

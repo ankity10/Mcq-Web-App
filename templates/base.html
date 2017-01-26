@@ -43,7 +43,7 @@
                 {% if request.user.is_authenticated %}
                 <li><a href="{% url "tests" %}">Take Test</a></li>
                 <li><a href="{% url "contest" %}">Play Contest</a></li>
-                <!-- <li><a href="{% url "score" %}">Score card</a></li> -->
+                
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -65,6 +65,7 @@
 
     {% endblock content %}
 </div>
+
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

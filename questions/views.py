@@ -127,15 +127,17 @@ def score(request, test_id):
 		cur_que_index = i
 		cur_que = question_indexes[cur_que_index]
 		question = Question.objects.get(pk=cur_que)
+		question_score = question.marks
 		answer = answer_array[i]
 		if answer == question.answer:
 			print("write answer")
-			c_score = c_score + 4
-	contestant.set_score(c_score)
+			c_score = c_score + question_score
+	userstest.set_score(c_score)
 	context = {
-	'score' : contestant.score,
+	'score' : userstest.score,
 	"title":"Score | Welcome to mcqWebApp"
 	}
+	
 	return render(request,'questions/score.html',context)
 
 def ifdebug(request):
@@ -168,7 +170,8 @@ def question(request,id,test_id):
 							 error="Database Error: ObjectDoesNotExist", 
 							 details=err)
 		answer = userstest.get_answer(question_num)
-		userstest.set_currqid(id)
+		userstest.set_curr_qid(id)
+		
 		context = {
 		"answer": answer,
 		"question": question,
@@ -177,7 +180,12 @@ def question(request,id,test_id):
 		"total":total_ques,
 		"title": "Question "+id+" | Welcome to mcqWebApp"
 		}
-		return render(request,'questions/question.html',context)
+
+		test_submitted = userstest.get_test_submitted()
+		if test_submitted:
+			return render (request, 'questions/test_submitted.html')
+		else:
+			return render(request,'questions/question.html',context)
 # 	else:
 # #		return HttpError(request=request, 
 # #						 error="Question not found!", 
@@ -187,25 +195,29 @@ def question(request,id,test_id):
 @login_required
 def state_change(request):
 	contestant = get_contestant(request)
-	cur_que = request.POST['cq']
+	test_id= contestant.get_ongoing_test()
+	userstest = get_user_tests(request,test_id)
+	cur_que = userstest.get_curr_qid()
 	# if user clicks next button
 	if request.POST['type'] == 'next':
-		if int(cur_que) <= contestant.current_que_id :
-			contestant.set_currqid(int(cur_que)+1)
+		if int(cur_que) <= userstest.current_que_id :
+			userstest.set_curr_qid(int(cur_que)+1)
 	# if user clicks previous button
 	else:
-		contestant.set_currqid(int(cur_que)-1)
+		userstest.set_curr_qid(int(cur_que)-1)
 	return HttpResponse("Succesfull ")
 
 @login_required
 def ans_submit(request):
 	contestant = get_contestant(request)
-	question_indexes = contestant.get_questions()
-	cur_question_num = int(request.POST['cq'])-1
+	test_id = contestant.get_ongoing_test()
+	userstest = get_user_tests(request,test_id)
+	question_indexes = userstest.get_question_indices()
+	cur_question_num = (userstest.get_curr_qid())-1
 	cur_question = question_indexes[cur_question_num]
 	question = Question.objects.get(pk=cur_question)
 	answer = request.POST['ans']
-	contestant.update_answer(cur_question_num, answer)
+	userstest.update_answer(cur_question_num, answer)
 	return HttpResponse("Successful")
 
 
@@ -216,9 +228,9 @@ def get_tests(request, contestant):
 	tests = UsersTest.get_user_tests(contestant.id)
 	return tests
 
-def get_user_tests(request,id):
+def get_user_tests(request,test_id):
 	contestant = get_contestant(request)
-	userstest = UsersTest.objects.get (contestant = contestant, test_id = id)
+	userstest = UsersTest.objects.get (contestant = contestant, test_id = test_id)
 	return userstest
 
 
@@ -232,13 +244,19 @@ def show_tests(request):
 
 
 @login_required	
-def test_details(request,id):
+def test_details(request,test_id):
 	
 	contestant = get_contestant(request)
-	userstest = get_user_tests(request,id)
-	asso_objs = Association.objects.filter(test_id = id)
+	contestant.set_ongoing_test(test_id)
+	userstest = get_user_tests(request,test_id)
+	asso_objs = Association.objects.filter(test_id = test_id)
 	questions = [objs.question for objs in asso_objs]
 	q_str_list = [str(question.question_id) for question in questions]
+
+	if userstest.first_login is False:
+		curr_id = userstest.get_curr_id()
+	else:
+		curr_id = 1
 	#contestant = get_contestant(request)
 	 
 
@@ -255,15 +273,21 @@ def test_details(request,id):
 	
 	context = {
 	'questions' : questions,
-	'test_id': id
-	
+	'test_id': test_id,
+	'curr_id': curr_id
 	}
 	return render (request, 'questions/test_details.html', context)
 
 @login_required
 def test_completed(request,test_id):
-
+	
+	userstest = get_user_tests(request,test_id)
+	userstest.set_test_submitted()
 	return render(request, 'questions/test_completed.html', {'test_id':test_id} )
+
+# @login_required
+# def get_score(request,test_id):
+
 
 
 	

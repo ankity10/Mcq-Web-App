@@ -20,8 +20,6 @@ function Globals () {
 
     setDebug();
 
-    self.cur_que = window.location.pathname.split('/')[2];
-    
     self.getCSRF = function (name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
@@ -48,9 +46,7 @@ var globals = new Globals(); // Instantiating globals
 // ==================================================================
 $('.next').click(function(evt) {
     var csrftoken = globals.getCSRF('csrftoken');
-    var cur_que = globals.cur_que;
     formData = {
-    	'cq' : cur_que,
     	'type' : 'next',
     }
     $.ajax({
@@ -73,9 +69,7 @@ $('.next').click(function(evt) {
 
 $('.pre').click(function(evt) {
     var csrftoken = globals.getCSRF('csrftoken');
-    var cur_que = globals.cur_que;
     formData = {
-    	'cq' : cur_que,
     	'type' : 'pre',
     }
     $.ajax({
@@ -100,10 +94,8 @@ $('.pre').click(function(evt) {
 
 $("form.answer-form input[name=answer]").click(function (evt) {
     var ans = $('input[name=answer]:checked').val();
-    var cur_que = globals.cur_que;
     var csrftoken = globals.getCSRF('csrftoken');
     formData = {
-        'cq' : cur_que,
         'ans' : ans,
     }
     $.ajax({
@@ -123,5 +115,9 @@ $("form.answer-form input[name=answer]").click(function (evt) {
         console.log(data);
     })
 })
+
+function show_alert() {
+   alert("Do you really want ro submit the test? You cannot re-take the test again.");
+}
 // HELPERS END
 // ******************************************************************

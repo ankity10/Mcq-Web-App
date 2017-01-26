@@ -39,14 +39,18 @@ class Association(models.Model):
 
 class Contestant(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    ongoing_test = models.ForeignKey(Test)
-
-    
+    ongoing_test = models.IntegerField(default = 0)
 
     def __str__(self):
         return str(self.user)
-
-
+    
+    def set_ongoing_test(self, test_id):
+        self.ongoing_test = test_id
+        self.save()
+    
+    def get_ongoing_test(self):
+        return self.ongoing_test
+        
 class UsersTest(models.Model):
 
     test = models.ForeignKey(Test, on_delete = models.CASCADE)
@@ -57,8 +61,7 @@ class UsersTest(models.Model):
     que_array = models.TextField(default="",null=True)
     ans_array = models.TextField(default="",null=True)
     test_progress = models.TextField(default="",null=True)
-
-
+    test_submitted = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.test) + " ===> "+ str(self.contestant)
@@ -96,6 +99,12 @@ class UsersTest(models.Model):
     def get_question_indices(self):
         return [int(index) for index in self.que_array.split(" ")]
 
+    def get_curr_qid(self):
+        return self.current_que_id
+
+    def get_test_submitted(self):
+        return self.test_submitted
+
 # GETTERS ENDS
 # ********************************************************
 
@@ -105,13 +114,16 @@ class UsersTest(models.Model):
         self.first_login = value
         self.save()
 
-    def set_currqid(self, value):
+    def set_curr_qid(self, value):
         self.current_que_id = value
         self.save()
         
     def set_score(self, value):
         self.score = value
         self.save()
+    def set_test_submitted(self):
+        self.test_submitted = 1
+        self.save
 
 # SETTERS ENDS
 # ********************************************************

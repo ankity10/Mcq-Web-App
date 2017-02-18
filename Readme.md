@@ -1,17 +1,18 @@
 # Mcq-Web-App
-A Python Django web application for Multiple choice questions
+A Python Django web application for taking MCQ (Multiple choice questions) tests.
 
 ### About
 This application is developed in Python Django (a web framework for rapid development).
+A user can sign in with any of the one roles "Moderator" or "Contestant". for more info see roles below.
 This Web Application presents a set of random questions from database to user and calculates user score accordingly.
 
-### Types of User
+### Types of User-Roles (Roles)
  **Moderator:** A user who wants to take tests.
- **User:** A user who gives tests.
+ **Contestant:** A user who gives tests.
 
 ### Features
-1. **User Exam State Tracking.**
-2. **User Login and SignUp.**
+1. **Contestant Exam State Tracking.**
+2. **Contestant Login and SignUp.**
 3. **Admin Panel.**
 4. **Score Calculation Rules.**
 5. **Moderator can take multiple tests.**

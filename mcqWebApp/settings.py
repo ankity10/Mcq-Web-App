@@ -58,7 +58,7 @@ ROOT_URLCONF = 'mcqWebApp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,"templates")],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,7 +118,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_ROOT =  os.path.join(BASE_DIR, "static-dev")
+STATIC_ROOT = os.path.join(BASE_DIR, "static-dev")
 
 STATIC_URL = '/static/'
 
@@ -128,11 +128,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-print("base dir path",os.path.join(BASE_DIR, "static"))
-#Crispy forms Framework setup 
+print("base dir path", os.path.join(BASE_DIR, "static"))
+# Crispy forms Framework setup
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-#Registration Redux
+# Registration Redux
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = '/tests/'
@@ -140,4 +140,3 @@ LOGIN_REDIRECT_URL = '/tests/'
 # Application view specific settings
 # =======================================================
 APP_NAME = 'MCQ WEB APP'
-

@@ -7,8 +7,3 @@ admin.site.register(Question)
 admin.site.register(Contestant)
 admin.site.register(Association)
 admin.site.register(UsersTest)
-
-
-
-
-

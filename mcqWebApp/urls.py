@@ -26,7 +26,6 @@ urlpatterns = [
     url(r'^ans_submit/', views.ans_submit, name='ans_submit'),
     url(r'^q_submit/', views.state_change, name='q_submit'),
     url(r'^tests/(?P<test_id>\d+)/(?P<id>\d+)/$', views.question, name='contest_que'),
-    url(r'^contest/$', views.contest, name='contest'),
     url(r'^$', views.index, name='index'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^tests/$', views.show_tests, name='tests'),

@@ -106,26 +106,6 @@ def index(request):
 
 
 @login_required
-def contest(request, id):
-    '''
-    Contest view ..first checks the current question state and then redirects to it
-    '''
-    contestant = get_contestant(request)
-    # first time login
-    id = 4
-    if contestant.first_login is False:
-        question_indexes = test_details(request, id)
-        contestant.set_questions(question_indexes)
-        contestant.set_answer(question_indexes)
-        contestant.set_login(True)
-        id = 1
-    else:
-        print("first login True")
-        id = contestant.current_que_id
-    return redirect('/test/' + str(id))
-
-
-@login_required
 def score(request, test_id):
     userstest = get_user_tests(request, test_id)
     question_indexes = userstest.get_question_indices()

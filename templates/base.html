@@ -12,7 +12,7 @@
         {% block title %}
 
         {% endblock title %}
-    </title> 
+    </title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap3/css/bootstrap.css' %}">
@@ -42,8 +42,7 @@
                 <li class="active"><a href="{% url 'index' %}">Home</a></li>
                 {% if request.user.is_authenticated %}
                 <li><a href="{% url "tests" %}">Take Test</a></li>
-                <li><a href="{% url "contest" %}">Play Contest</a></li>
-                
+
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">

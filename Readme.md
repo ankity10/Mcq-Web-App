@@ -23,15 +23,16 @@ This application is currently in development phase and hence its not suitable to
 Once its release of first version it can be used in production.
 
 ### Run on local machine - instructions
-1. $: pip3 install virtualenv
-2. $: virtualenv -p python3 my_virtual_env
-3. $: cd my_virtual_env
-4. $: source bin/activate
-5. (my_virtual_env) $: git clone git@github.com:ankity10/Mcq-Web-App.git
-6.  (my_virtual_env) $: cd Mcq-Web-App
-7.  (my_virtual_env) $: pip install -r requirements.txt
-8.  (my_virtual_env) $: python manage.py runserver 8080
-9.  Open this link -> localhost:8080 and try this application.
+1. pip3 install virtualenv
+2. export PATH=$PATH:~/.local/bin
+3. virtualenv -p python3 my_virtual_env
+4. cd my_virtual_env
+5. source bin/activate
+6. (my_virtual_env) $ git clone https://github.com/ankity10/Mcq-Web-App.git
+7. (my_virtual_env) $ cd Mcq-Web-App
+8. (my_virtual_env) $ pip install -r requirements.txt
+9. (my_virtual_env) $python manage.py runserver 8080
+10. Open this link -> localhost:8080 and try this application.
 
 ### Todo
 1. Import questions from excel sheet.

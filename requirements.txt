@@ -1,3 +1,4 @@
 django
 django-registration
+django-registration-redux
 django-crispy_forms
